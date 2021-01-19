@@ -66,6 +66,8 @@ Block operator<<(block b, int n)
 }
 
 //1 - зашифровать, 0 - расшифровать
+//командная строка 0 233 C:\Users\sgole\source\repos\DZ1_fix\DZ1_fix\code.txt C:\Users\sgole\source\repos\DZ1_fix\DZ1_fix\output.txt
+//или 1 233 C:\Users\sgole\source\repos\DZ1_fix\DZ1_fix\input.txt C:\Users\sgole\source\repos\DZ1_fix\DZ1_fix\code.txt
 
 int main(int argc, char* argv[])
 {

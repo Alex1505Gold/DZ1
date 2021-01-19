@@ -87,14 +87,20 @@ int main(int argc, char* argv[])
     std::vector<block> blocks;
     //-----------------------------------------------------------------
     //вывод аргументов командной строки
-    std::ifstream in(argv[3]);
+    std::ifstream in(argv[3], std::ios::binary);
     std::ofstream out(argv[4]);
     //-----------------------------------------------------------------
     unsigned int count_of_blocks = 0;
-    std::getline(in, plaintext);
-
+    //std::getline(in, plaintext);
+    uint8_t block_for_read[250]; // из файла мы будем читать текст блоками по 250 символов
+    std::string str = "";
+    while (!in.eof())
+    {
+        in.read(reinterpret_cast<char*>(&block_for_read), 250); // считали 250 или меньше символов
+        plaintext.append(reinterpret_cast<char*>(&block_for_read), in.gcount()); // добавили в плайнтекст столько символов, сколько действительно было считано
+    }
     block current_b;
-    i = 0;
+
     //заполнение символами = для ровного деления
     std::string add;
     short int add_size = (12 - plaintext.length() % 12) % 12;
@@ -105,10 +111,9 @@ int main(int argc, char* argv[])
     plaintext += add;
     //-----------------------------------------------------------------
     //делим на блоки по 12
-    plaintext += '\n';
-    while (plaintext[i] != '\n') {
+    for (int i = 0; i < plaintext.length(); i += 12)
+    {
         current_b.block_str = plaintext.substr(i, 12);
-        i += 12;
         blocks.push_back(current_b);
         count_of_blocks++;
     }
